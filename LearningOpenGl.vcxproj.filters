@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{5fe582fc-bdb6-4f21-b5f1-1fbaebf7c1ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2522f93e-fbb6-4238-b80b-b2cdc99e2406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLSL">
+      <UniqueIdentifier>{86933419-2794-4fb2-a060-530f360b46a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Note">
+      <UniqueIdentifier>{dbb53f05-0a4f-4beb-9ee2-fdd959a40d79}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\glad.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Part1.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Part1.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="笔记.md">
+      <Filter>Note</Filter>
+    </None>
+  </ItemGroup>
+</Project>
