@@ -31,5 +31,8 @@
     <None Include="笔记.md">
       <Filter>Note</Filter>
     </None>
+    <None Include="Part1Vertice.glsl">
+      <Filter>GLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

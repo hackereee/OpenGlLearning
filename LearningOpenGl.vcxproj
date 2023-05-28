@@ -26,6 +26,7 @@
     <ClInclude Include="include\Part1.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Part1Vertice.glsl" />
     <None Include="笔记.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
