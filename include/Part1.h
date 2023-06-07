@@ -19,11 +19,14 @@ float vertices[] = {
 
 /// <summary>
 /// 顶点着色器源代码
+/// vertexColor 是自定义的颜色，它从顶点着色器中输入，在片段着色器中输出
 /// </summary>
 const char *vertexShaderSource = "#version 330 core\n" 
 "layout(location = 0) in vec3 aPos;\n"
+"out vec4 vertexColor;\n"
 "void main() {\n"
 	"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+	"vertexColor = vec4(0.4, 1.0, 0.8, 1.0);\n"
 "}\n";
 
 /// <summary>
@@ -31,6 +34,7 @@ const char *vertexShaderSource = "#version 330 core\n"
 /// </summary>
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 programColor;\n"
 "void main(){\n"
-"FragColor = vec4(0.0, 0.3, 0.3, 1.0 );\n"
+"FragColor = programColor;\n"
 "}";

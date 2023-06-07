@@ -134,6 +134,14 @@ void render(GLFWwindow *window) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		//开始渲染三角形
 		glUseProgram(shaderProgram);
+
+		float currentTime = glfwGetTime();
+		//使用sin函数获得一个绿色值
+		float green = sin(currentTime);
+		//获取uniform颜色对象
+		int colorLocation = glGetUniformLocation(shaderProgram, "programColor");
+		glUniform4f(colorLocation, 0.0f, green, 0.0f, 1.0f);
+
 		glBindVertexArray(VAO);
 		//使用三角形图元渲染这个三角形
 		glDrawArrays(GL_TRIANGLES, 0, 3);
