@@ -13,19 +13,26 @@
     <Filter Include="Note">
       <UniqueIdentifier>{dbb53f05-0a4f-4beb-9ee2-fdd959a40d79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Part1">
+      <UniqueIdentifier>{e93f1553-d6b4-4d2b-8a94-1f0d2ac863c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Part1">
+      <UniqueIdentifier>{2c6c7c68-0333-4277-86bd-ce23aacaff3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Program">
+      <UniqueIdentifier>{1b50980c-f356-47c7-98b2-95b2a95902a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Program">
+      <UniqueIdentifier>{84d5e1d9-01d6-4361-9bd4-7a4a41c24559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c">
-      <Filter>Source</Filter>
+      <Filter>Source\Part1</Filter>
     </ClCompile>
     <ClCompile Include="src\Part1.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Part1</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\Part1.h">
-      <Filter>Include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="笔记.md">
@@ -34,5 +41,13 @@
     <None Include="Part1Vertice.glsl">
       <Filter>GLSL</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Part1.h">
+      <Filter>Include\Part1</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Program\shader.h">
+      <Filter>Include\Program</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

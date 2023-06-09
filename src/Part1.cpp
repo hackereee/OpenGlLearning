@@ -6,12 +6,12 @@ using std::string;
 int main() {
 	//Opengl初始化
 	glfwInit();
-	
+
 	//配置版本
 	//主版本号
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	//次版本号
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3 );
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	//
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -28,7 +28,7 @@ int main() {
 	render(window);
 	//渲染结束，释放所有资源
 	glfwTerminate();
-return 0;
+	return 0;
 }
 
 
@@ -36,14 +36,14 @@ return 0;
 
 
 /*初始化窗口*/
-GLFWwindow * initWindow()   {
+GLFWwindow* initWindow() {
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Part1", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "can not create the window, the window is null" << std::endl;
 		glfwTerminate();
 		return NULL;
 	}
-	
+
 	//设置上下文
 	glfwMakeContextCurrent(window);
 	//加入窗口大小监听
@@ -53,10 +53,10 @@ GLFWwindow * initWindow()   {
 
 /*窗口大小改变时改变视口大小*/
 void onWindowSizeCallback(GLFWwindow* window, int width, int height) {
-	glViewport(0,0,width, height);
+	glViewport(0, 0, width, height);
 }
 
-void onGlfwError(int code, const  char *desc) {
+void onGlfwError(int code, const  char* desc) {
 	std::cout << "error with" + string(desc) << std::endl;
 }
 
@@ -65,7 +65,7 @@ void onGlfwError(int code, const  char *desc) {
 /// 渲染
 /// </summary>
 /// <param name="window">窗口</param>
-void render(GLFWwindow *window) {
+void render(GLFWwindow* window) {
 	//创建顶点着色器
 	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	//顶点着色器源码
@@ -120,9 +120,14 @@ void render(GLFWwindow *window) {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
 	//取顶点程序里的layout=0属性，有3个顶点，作为float类型，不进行坐标标准化（即归一化，将传入的顶点归一化到-1,1之间),步长为3,（因为我们设置了x,y,z），偏移量（offset）为0
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+	//由于顶点属性扩展了颜色属性，所以我们这里要将每个顶点的步长改为6（顶点3， RGB3）
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+	//启用顶点颜色属性,在着色器里定义了其location为1, 最后偏移3个单位顺利取到颜色值
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	//启用顶点
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	//这一步取消对VAO的绑定，防止其他程序误用了这个缓冲
 	glBindVertexArray(0);
@@ -130,17 +135,17 @@ void render(GLFWwindow *window) {
 	{
 		processInput(window);
 		//这里执行渲染
-		glClearColor(1.0f,1.0f,1.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		//开始渲染三角形
 		glUseProgram(shaderProgram);
 
-		float currentTime = glfwGetTime();
+		//float currentTime = glfwGetTime();
 		//使用sin函数获得一个绿色值
-		float green = sin(currentTime);
+		//float green = sin(currentTime);
 		//获取uniform颜色对象
-		int colorLocation = glGetUniformLocation(shaderProgram, "programColor");
-		glUniform4f(colorLocation, 0.0f, green, 0.0f, 1.0f);
+		//int colorLocation = glGetUniformLocation(shaderProgram, "programColor");
+		//glUniform4f(colorLocation, 0.0f, green, 0.0f, 1.0f);
 
 		glBindVertexArray(VAO);
 		//使用三角形图元渲染这个三角形

@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Part1.h" />
+    <ClInclude Include="include\Program\shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Part1Vertice.glsl" />
