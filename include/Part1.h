@@ -9,19 +9,19 @@ void processInput(GLFWwindow* window);
 void onGlfwError(int errorCode, const char* desc);
 
 /// <summary>
-/// ¶¥µã×ø±ê
+/// é¡¶ç‚¹åæ ‡
 /// </summary>
 float vertices[] = {
-	// ¶¥µã             //RGB
+	// é¡¶ç‚¹             //RGB
 	-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 	0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
 	0.0f, 0.5f , 0.0f,  0.0f, 0.0f, 1.0f
 };
 
 /// <summary>
-/// ¶¥µã×ÅÉ«Æ÷Ô´´úÂë
-/// vertexColor ÊÇ×Ô¶¨ÒåµÄÑÕÉ«£¬Ëü´Ó¶¥µã×ÅÉ«Æ÷ÖĞÊäÈë£¬ÔÚÆ¬¶Î×ÅÉ«Æ÷ÖĞÊä³ö
-/// aColor ÓÉCpuÊäÈë£¨´úÂë£©
+/// é¡¶ç‚¹ç€è‰²å™¨æºä»£ç 
+/// vertexColor æ˜¯è‡ªå®šä¹‰çš„é¢œè‰²ï¼Œå®ƒä»é¡¶ç‚¹ç€è‰²å™¨ä¸­è¾“å…¥ï¼Œåœ¨ç‰‡æ®µç€è‰²å™¨ä¸­è¾“å‡º
+/// aColor ç”±Cpuè¾“å…¥ï¼ˆä»£ç ï¼‰
 /// </summary>
 const char *vertexShaderSource = "#version 330 core\n" 
 "layout(location = 0) in vec3 aPos;\n"
@@ -33,7 +33,7 @@ const char *vertexShaderSource = "#version 330 core\n"
 "}\n";
 
 /// <summary>
-/// Æ¬¶Î×ÅÉ«Æ÷
+/// ç‰‡æ®µç€è‰²å™¨
 /// </summary>
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
@@ -41,3 +41,4 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "void main(){\n"
 "FragColor = vertexColor;\n"
 "}";
+

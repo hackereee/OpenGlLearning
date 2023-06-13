@@ -3,9 +3,9 @@
 
 
 int main() {
-	//初始化glfw
+	//鍒濆鍖杇lfw
 	glfwInit();
-	//设置版本
+	//璁剧疆鐗堟湰
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 

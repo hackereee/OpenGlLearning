@@ -7,19 +7,19 @@
 #include <sstream>
 
 /// <summary>
-/// ×ÅÉ«Æ÷Àà
+/// ç€è‰²å™¨ç±»
 /// </summary>
 class Shader {
 public :
 	unsigned int ProgramId;
 	/// <summary>
 	/// </summary>
-	/// <param name="vertexSource">¶¥µã×ÅÉ«Æ÷Ô´´úÂë</param>
-	/// <param name="fragmentSource">Æ¬¶Î×ÅÉ«Æ÷Ô´´úÂë</param>
+	/// <param name="vertexSource">é¡¶ç‚¹ç€è‰²å™¨æºä»£ç </param>
+	/// <param name="fragmentSource">ç‰‡æ®µç€è‰²å™¨æºä»£ç </param>
 	Shader(char* vertexSource, char* fragmentSource) {
 
 	}
-	//Ê¹ÓÃ
+	//ä½¿ç”¨
 	void use();
 };
 
