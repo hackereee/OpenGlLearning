@@ -9,6 +9,13 @@ Shader::Shader(char* vertexSourcePath, char* fragmentSourcePath){
     ifstream fShaderFile;
     vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
     fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+
+    try {
+
+    }
+    catch (ifstream::failure e) {
+        cout << "init shader source failed: " << endl;
+    }
 }
 
 void Shader::use(){

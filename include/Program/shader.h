@@ -21,6 +21,8 @@ public :
 	}
 	//使用
 	void use();
+
+
 };
 
 #endif

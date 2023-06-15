@@ -33,6 +33,9 @@
     <ClCompile Include="src\Part1.cpp">
       <Filter>Source\Part1</Filter>
     </ClCompile>
+    <ClCompile Include="src\program\shader.cpp">
+      <Filter>Source\Program</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="笔记.md">

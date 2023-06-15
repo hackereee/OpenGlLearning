@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Part1.cpp" />
+    <ClCompile Include="src\program\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Part1.h" />
