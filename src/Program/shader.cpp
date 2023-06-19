@@ -2,13 +2,13 @@
 
 using namespace std;
 
-Shader::Shader(char* vertexSourcePath, char* fragmentSourcePath) {
-	string vertexCode;
-	string fragmentCode;
-	ifstream vShaderFile;
-	ifstream fShaderFile;
-	vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
-	fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+Shader::Shader(char* vertexSourcePath, char* fragmentSourcePath){
+    string vertexCode;
+    string fragmentCode;
+    ifstream vShaderFile;
+    ifstream fShaderFile;
+    vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+    fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
 
 	try {
 		vShaderFile.open(vertexCode);
@@ -40,7 +40,7 @@ void Shader::compileAndLink(char* vertexCode, char* fragmentCode) {
 
 }
 
-void Shader::use() {
+void Shader::use(){
 
 }
 
