@@ -22,6 +22,9 @@ public :
 	//使用
 	void use();
 
+private:
+	void compileAndLink(char* vertexCode, char* fragmentCode);
+
 
 };
 
