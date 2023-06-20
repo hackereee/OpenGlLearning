@@ -34,10 +34,24 @@ void Shader::compileAndLink(char* vertexCode, char* fragmentCode) {
 	unsigned int vertex, fragment;
 	int success;
 	char infoLog[512];
+	//¶¥µã×ÅÉ«Æ÷
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vertexCode, NULL);
 	glCompileShader(vertex);
+	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+		cout << "create vertex shader failed:" << infoLog << endl;
+	}
 
+	fragment = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragment, 1, &fragmentCode, NULL);
+	glCompileShader(fragment);
+	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+		cout << "create fragment shader failed:" << infoLog << endl;
+	}
 }
 
 void Shader::use(){
