@@ -22,8 +22,12 @@ public :
 	//使用
 	void use();
 
+	void setInt(std::string &name, int value);
+	void setBool(std::string &name, bool value);
+	void setFloat(std::string &name, float value);
+
 private:
-	void compileAndLink(char* vertexCode, char* fragmentCode);
+	void compileAndLink(const char* vertexCode, const char* fragmentCode);
 
 
 };

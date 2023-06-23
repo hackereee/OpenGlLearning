@@ -28,9 +28,11 @@ Shader::Shader(char* vertexSourcePath, char* fragmentSourcePath){
 	const char* vShaderCode = vertexCode.c_str();
 	const char* fShaderCode = fragmentCode.c_str();
 
+	compileAndLink(vShaderCode, fShaderCode);
+
 }
 
-void Shader::compileAndLink(char* vertexCode, char* fragmentCode) {
+void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
 	unsigned int vertex, fragment;
 	int success;
 	char infoLog[512];
@@ -52,9 +54,34 @@ void Shader::compileAndLink(char* vertexCode, char* fragmentCode) {
 		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
 		cout << "create fragment shader failed:" << infoLog << endl;
 	}
+	ProgramId =  glCreateProgram();
+	glAttachShader(ProgramId, vertex);
+	glAttachShader(ProgramId, fragment);
+	glLinkProgram(ProgramId);
+	glGetProgramiv(ProgramId, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(ProgramId, 512, NULL, infoLog);
+		cout << "link shader error" << infoLog << endl;
+	}
+	//着色器已经链接至程序中，删除它
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
+
 }
 
 void Shader::use(){
-
+	glUseProgram(ProgramId);
 }
 
+
+void Shader::setFloat(string &name, float value) {
+	glUniform1f(glGetUniformLocation(ProgramId, name.c_str()), value);
+}
+
+void Shader::setInt(string &name, int value) {
+	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
+}
+
+void Shader::setBool(string &name, bool value) {
+	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
+}
