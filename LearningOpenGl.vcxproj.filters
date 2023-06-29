@@ -25,6 +25,18 @@
     <Filter Include="Include\Program">
       <UniqueIdentifier>{84d5e1d9-01d6-4361-9bd4-7a4a41c24559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{7f8c8279-7ea8-4078-ae6a-2fbdd93a2007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Texture">
+      <UniqueIdentifier>{d57a7cc1-7b28-4c6e-a45a-2beb3b15906c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{708fe20b-485a-4a3c-aa56-5eb0c304cb34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Common">
+      <UniqueIdentifier>{fdfedbdd-ea06-46a0-be6b-859eeeef5762}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c">
@@ -35,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="src\program\shader.cpp">
       <Filter>Source\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\img.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\TextureSample.cpp">
+      <Filter>Source\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,5 +70,16 @@
     <ClInclude Include="include\Program\shader.h">
       <Filter>Include\Program</Filter>
     </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\TextureSample.h">
+      <Filter>Include\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\container.jpg">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>

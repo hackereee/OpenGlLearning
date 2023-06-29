@@ -19,17 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\img.cpp" />
+    <ClCompile Include="src\common\TextureSample.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Part1.cpp" />
     <ClCompile Include="src\program\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\common\TextureSample.h" />
     <ClInclude Include="include\Part1.h" />
     <ClInclude Include="include\Program\shader.h" />
+    <ClInclude Include="include\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Part1Vertice.glsl" />
     <None Include="笔记.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\container.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
