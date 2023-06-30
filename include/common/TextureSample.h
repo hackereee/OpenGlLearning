@@ -13,4 +13,7 @@ const float textureVertices[] = {
 	0, 1.0f
 };
 
-void loadContainerTexture();
+
+void renderTexture();
+
+unsigned char *loadContainerTexture();

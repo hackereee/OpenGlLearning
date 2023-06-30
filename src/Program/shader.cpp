@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Shader::Shader(char* vertexSourcePath, char* fragmentSourcePath){
+Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath){
     string vertexCode;
     string fragmentCode;
     ifstream vShaderFile;

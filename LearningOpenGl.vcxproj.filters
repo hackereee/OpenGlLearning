@@ -37,6 +37,9 @@
     <Filter Include="Include\Common">
       <UniqueIdentifier>{fdfedbdd-ea06-46a0-be6b-859eeeef5762}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{1f101ba0-91fd-4841-8775-fcb37ab8b4d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\glad.c">
@@ -61,6 +64,12 @@
     </None>
     <None Include="Part1Vertice.glsl">
       <Filter>GLSL</Filter>
+    </None>
+    <None Include="shaders\texture-sample.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shaders\texture-sample.vert">
+      <Filter>shader</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

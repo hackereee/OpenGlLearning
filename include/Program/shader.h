@@ -16,7 +16,7 @@ public :
 	/// </summary>
 	/// <param name="vertexSource">顶点着色器源代码</param>
 	/// <param name="fragmentSource">片段着色器源代码</param>
-	Shader(char* vertexSource, char* fragmentSource) {
+	Shader(const char* vertexSource, const char* fragmentSource):Shader() {
 
 	}
 	//使用
@@ -27,6 +27,8 @@ public :
 	void setFloat(std::string &name, float value);
 
 private:
+
+	Shader() = default;
 	void compileAndLink(const char* vertexCode, const char* fragmentCode);
 
 

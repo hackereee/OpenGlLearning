@@ -33,6 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Part1Vertice.glsl" />
+    <None Include="shaders\texture-sample.frag" />
+    <None Include="shaders\texture-sample.vert" />
     <None Include="笔记.md" />
   </ItemGroup>
   <ItemGroup>
