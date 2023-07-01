@@ -36,7 +36,7 @@ void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
 	unsigned int vertex, fragment;
 	int success;
 	char infoLog[512];
-	//顶点着色器
+	//椤剁偣鐫�鑹插櫒
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vertexCode, NULL);
 	glCompileShader(vertex);
@@ -63,7 +63,7 @@ void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
 		glGetProgramInfoLog(ProgramId, 512, NULL, infoLog);
 		cout << "link shader error" << infoLog << endl;
 	}
-	//着色器已经链接至程序中，删除它
+	//鐫�鑹插櫒宸茬粡閾炬帴鑷崇▼搴忎腑锛屽垹闄ゅ畠
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
 

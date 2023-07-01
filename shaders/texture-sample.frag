@@ -1,6 +1,4 @@
 #version 330 core
-//顶点着色器传递过来的颜色
-in vec3 outColor;
 //纹理
 in vec2 outTexcood;
 //纹理

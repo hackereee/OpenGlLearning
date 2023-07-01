@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\common\gl_common.cpp" />
     <ClCompile Include="src\common\img.cpp" />
     <ClCompile Include="src\common\TextureSample.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -26,6 +27,7 @@
     <ClCompile Include="src\program\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\common\gl_common.h" />
     <ClInclude Include="include\common\TextureSample.h" />
     <ClInclude Include="include\Part1.h" />
     <ClInclude Include="include\Program\shader.h" />
