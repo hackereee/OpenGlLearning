@@ -1,6 +1,7 @@
 #include<Part1.h>
 #include<iostream>
-
+#include <common/base.h>
+#include <common/TextureSample.h>
 using std::string;
 
 int main() {
@@ -35,7 +36,6 @@ int main() {
 
 
 
-/*初始化窗口*/
 GLFWwindow* initWindow() {
 	GLFWwindow* window = glfwCreateWindow(800, 600, "Part1", NULL, NULL);
 	if (window == NULL) {
@@ -50,12 +50,10 @@ GLFWwindow* initWindow() {
 	glfwSetFramebufferSizeCallback(window, onWindowSizeCallback);
 	return window;
 }
-
-/*窗口大小改变时改变视口大小*/
+/*w窗口大小改变时改变视口大小w*/
 void onWindowSizeCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
-
 void onGlfwError(int code, const  char* desc) {
 	std::cout << "error with" + string(desc) << std::endl;
 }
@@ -153,6 +151,8 @@ void render(GLFWwindow* window) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	//去渲染纹理
+	renderTexture();
 }
 
 
@@ -165,5 +165,3 @@ void processInput(GLFWwindow* window) {
 		glfwSetWindowShouldClose(window, true);
 	}
 }
-
-

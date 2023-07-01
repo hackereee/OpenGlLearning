@@ -5,4 +5,4 @@
 
 bool initGlEnv();
 
-GLFWwindow *initWindow(int width, int height);
+GLFWwindow* initWindow(int width, int height, const  char* title);

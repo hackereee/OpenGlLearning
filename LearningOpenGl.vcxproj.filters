@@ -91,6 +91,9 @@
     <ClInclude Include="include\common\gl_common.h">
       <Filter>Include\Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\base.h">
+      <Filter>Include\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\container.jpg">

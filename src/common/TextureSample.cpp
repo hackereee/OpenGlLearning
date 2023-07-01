@@ -1,4 +1,3 @@
-#define STB_IMAGE_IMPLEMENTATION
 #include<common/TextureSample.h>
 #include <stb_image.h>
 #include<program/shader.h>
@@ -19,7 +18,7 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 	glGenBuffers(1, VBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vvertices), vvertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, (void*)0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(textureVertices), textureVertices, GL_STATIC_DRAW);
@@ -70,12 +69,13 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 }
 
 
-void renderTextrue() {
+void renderTexture() {
 	if (!initGlEnv())
 	{
 		return;
 	}
-	GLFWwindow* window = initWindow(800, 600);
+	const char* title = "纹理示例";
+	GLFWwindow* window = initWindow(800, 600, title);
 	if (window == NULL)
 	{
 		return;

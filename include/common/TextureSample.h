@@ -1,5 +1,5 @@
 
-const float vertices[] = {
+const float vvertices[] = {
 	0.5f, 0.5f, 0,
 	0.5f, -0.5f, 0,
 	-0.5f, -0.5f, 0,
@@ -16,4 +16,4 @@ const float textureVertices[] = {
 
 void renderTexture();
 
-unsigned char *loadContainerTexture(int* width, int* height);
+unsigned char* loadContainerTexture(int* width, int* height);

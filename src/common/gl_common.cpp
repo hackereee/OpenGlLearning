@@ -1,12 +1,17 @@
 #include<Common/gl_common.h>
 #include <iostream>
+#include <common/base.h>
+
+
+
+
 
 
 bool initGlEnv() {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwSetErrorCallback(onGlfwError);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -18,11 +23,6 @@ bool initGlEnv() {
 
 
 
-void onGlfwError(int code, const  char *desc) {
-	std::cout << "glfw error code :"  << code << "---desc:" << desc << std::endl;
-}
-
-
 
 void onFrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -30,9 +30,9 @@ void onFrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 }
 
 
-GLFWwindow *initWindow(int width, int height, char *title ) {
-	GLFWwindow *window =  glfwCreateWindow(width, height, title, NULL, NULL);
-	if(window == NULL)
+GLFWwindow* initWindow(int width, int height, const char* title) {
+	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
+	if (window == NULL)
 	{
 		std::cout << "init window error:" << "the window is NULL !" << std::endl;
 		return  NULL;
