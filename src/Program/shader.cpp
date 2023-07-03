@@ -2,17 +2,17 @@
 
 using namespace std;
 
-Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath){
-    string vertexCode;
-    string fragmentCode;
-    ifstream vShaderFile;
-    ifstream fShaderFile;
-    vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
-    fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath) {
+	string vertexCode;
+	string fragmentCode;
+	ifstream vShaderFile;
+	ifstream fShaderFile;
+	vShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
+	fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
 
 	try {
-		vShaderFile.open(vertexCode);
-		fShaderFile.open(fragmentCode);
+		vShaderFile.open(vertexSourcePath);
+		fShaderFile.open(fragmentSourcePath);
 		stringstream vShaderStream, fShaderStream;
 		vShaderStream << vShaderFile.rdbuf();
 		fShaderStream << fShaderFile.rdbuf();
@@ -22,7 +22,7 @@ Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath){
 		fragmentCode = fShaderStream.str();
 	}
 	catch (ifstream::failure e) {
-		cout << "init shader source failed: " << endl;
+		std::cout << "init shader source failed: " << endl;
 	}
 
 	const char* vShaderCode = vertexCode.c_str();
@@ -32,7 +32,7 @@ Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath){
 
 }
 
-void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
+void Shader::compileAndLink(const char* vertexCode, const char* fragmentCode) {
 	unsigned int vertex, fragment;
 	int success;
 	char infoLog[512];
@@ -54,7 +54,7 @@ void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
 		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
 		cout << "create fragment shader failed:" << infoLog << endl;
 	}
-	ProgramId =  glCreateProgram();
+	ProgramId = glCreateProgram();
 	glAttachShader(ProgramId, vertex);
 	glAttachShader(ProgramId, fragment);
 	glLinkProgram(ProgramId);
@@ -69,19 +69,19 @@ void Shader::compileAndLink(const char* vertexCode,  const char* fragmentCode) {
 
 }
 
-void Shader::use(){
+void Shader::use() {
 	glUseProgram(ProgramId);
 }
 
 
-void Shader::setFloat(string &name, float value) {
+void Shader::setFloat(string& name, float value) {
 	glUniform1f(glGetUniformLocation(ProgramId, name.c_str()), value);
 }
 
-void Shader::setInt(string &name, int value) {
+void Shader::setInt(string& name, int value) {
 	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
 }
 
-void Shader::setBool(string &name, bool value) {
+void Shader::setBool(string& name, bool value) {
 	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
 }

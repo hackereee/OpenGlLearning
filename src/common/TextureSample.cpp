@@ -8,21 +8,21 @@
 unsigned char* loadContainerTexture(int* width, int* height) {
 	//宽、高、通道
 	int nrChannels;
-	return stbi_load("resource/container.jpg", width, height, &nrChannels, 0);
+	return stbi_load("resources/container.jpg", width, height, &nrChannels, 0);
 }
 
 void renderCore(Shader& shader, GLFWwindow* window) {
 	unsigned int VAO;
 	unsigned int VBO[2];
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, VBO);
+	glGenBuffers(2, VBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vvertices), vvertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3, (void*)0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(textureVertices), textureVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2, (void*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2, (void*)0);
 
 
 	//纹理
@@ -80,8 +80,8 @@ void renderTexture() {
 	{
 		return;
 	}
-	const char* vert = "shader/ texture - sample.vert";
-	const char* frag = "shader/texture-sample.frag";
+	const char* vert = "shaders/ texture - sample.vert";
+	const char* frag = "shaders/texture-sample.frag";
 	Shader shader(vert, frag);
 	renderCore(shader, window);
 }
