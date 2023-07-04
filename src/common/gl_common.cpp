@@ -2,23 +2,26 @@
 #include <iostream>
 #include <common/base.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 
 
 
 
-bool initGlEnv() {
+
+GLFWwindow* initGlEnv(int width, int height, const char* title) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwSetErrorCallback(onGlfwError);
-
+	GLFWwindow* window = initWindow(width, height, title);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "failed init glad!" << std::endl;
-		return  false;
+		return  NULL;
 	}
-	return true;
+	return window;
 }
 
 

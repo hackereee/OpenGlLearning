@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\common\gl_common.cpp" />
-    <ClCompile Include="src\common\img.cpp" />
     <ClCompile Include="src\common\TextureSample.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Part1.cpp" />

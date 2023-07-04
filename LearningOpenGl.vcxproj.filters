@@ -51,9 +51,6 @@
     <ClCompile Include="src\program\shader.cpp">
       <Filter>Source\Program</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\img.cpp">
-      <Filter>Source\Common</Filter>
-    </ClCompile>
     <ClCompile Include="src\common\TextureSample.cpp">
       <Filter>Source\Texture</Filter>
     </ClCompile>
