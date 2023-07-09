@@ -2,6 +2,9 @@
 #include <stb_image.h>
 #include<program/shader.h>
 #include<common/gl_common.h>
+#include<glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 const float vertices[] = {
@@ -48,6 +51,12 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
+	//创建一个4分量单位矩阵，齐次坐标
+	// glm::mat4 trans = glm::mat4(1.0f);
+	//将x,y,z方向都缩放为原来的一半
+	// trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
+	int transformLocation = glGetUniformLocation(shader.ProgramId, "transform");
+
 
 
 
@@ -84,10 +93,16 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 	// glBindVertexArray(0);
 	while (!glfwWindowShouldClose(window))
 	{
-
+		glm::mat4 trans(1.0f);
+		//先沿着z轴旋转，然后缩放为原来的0.5
+		trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
+		//因为我们是xy平面，要想实现旋转则要沿着z轴来
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0f));
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shader.use();
+		//第三个参数代表是否需要对矩阵进行转制，由于glm与opengl都默认使用列主旭排列，所以不需要转置，传false
+		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(trans));
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -97,6 +112,7 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 		//交换缓冲区并查询IO事件
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		// trans = glm::scale(trans, glm::vec3(2.0f, 2.0f, 2.0f));
 	}
 
 
