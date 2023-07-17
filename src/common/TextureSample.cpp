@@ -7,6 +7,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
+const int viewportWidth = 800;
+const int viewportHeight = 600;
+
 const float vertices[] = {
 	// positions          // colors           // texture coords
 		1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
@@ -51,27 +54,33 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	//创建一个4分量单位矩阵，齐次坐标
-	// glm::mat4 trans = glm::mat4(1.0f);
-	//将x,y,z方向都缩放为原来的一半
-	// trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
 
 
 	//模型矩阵，世界坐标系
 	glm::mat4 model = glm::mat4(1.0f);
 	//沿着x轴先旋转一定的角度
-	model = glm::rotate(model, (float)glm::radians(-60), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate<float>(model, (float)glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	//观察矩阵,观察坐标系
 	glm::mat4 view = glm::mat4(1.0f);
-	//验证z轴将摄像机原理3倍
+	//验证z轴将摄像机原理3倍， glm 为右手坐标系,所以以观察者为原点，越往后数字z轴应该越小（负数）
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 	//透视投影矩阵，裁剪坐标系
 	glm::mat4 projection = glm::mat4(1.0f);
-	// projection = glm::perspective()
+	//透视方法，第一个参数指定fov角（filed of view），第二个参数指定透视变换，第三个为近平面，第四个为远平面
+	projection = glm::perspective<float>((float)glm::radians(45.0f), viewportWidth / viewportHeight, 0.1f, 100.0f);
 
-	int transformLocation = glGetUniformLocation(shader.ProgramId, "transform");
+
+	shader.use();
+	int modelLocation = glGetUniformLocation(shader.ProgramId, "model");
+	int viewLocation = glGetUniformLocation(shader.ProgramId, "view");
+	int projectionLocation = glGetUniformLocation(shader.ProgramId, "projection");
+	//第三个参数代表是否需要对矩阵进行转置，由于glm与opengl都默认使用列主序排列，所以不需要转置，传false
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, value_ptr(model));
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+
 
 
 
@@ -102,23 +111,18 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 	}
 	//释放图片
 	stbi_image_free(imgData);
-	shader.use();
+
 	std::string plane = "texture1";
 	shader.setInt(plane, 0);
 	//解绑VAO
 	glBindVertexArray(0);
 	while (!glfwWindowShouldClose(window))
 	{
-		// glm::mat4 trans(1.0f);
-		//先沿着z轴旋转，然后缩放为原来的0.5
-		// trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
-		//因为我们是xy平面，要想实现旋转则要沿着z轴来
-		// trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0f));
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shader.use();
-		//第三个参数代表是否需要对矩阵进行转置，由于glm与opengl都默认使用列主序排列，所以不需要转置，传false
-		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(trans));
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -137,7 +141,7 @@ void renderCore(Shader& shader, GLFWwindow* window) {
 
 void renderTexture() {
 	const char* title = "纹理示例";
-	GLFWwindow* window = initGlEnv(800, 600, title);
+	GLFWwindow* window = initGlEnv(viewportWidth, viewportHeight, title);
 	if (window == NULL)
 	{
 		return;
