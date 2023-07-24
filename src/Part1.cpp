@@ -34,7 +34,7 @@ using std::string;
 
 int main()
 {
-	renderTexture();
+	renderTexture3D();
 	return 0;
 }
 
