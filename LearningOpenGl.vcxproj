@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\base.h" />
+    <ClInclude Include="include\common\camera.h" />
     <ClInclude Include="include\common\gl_common.h" />
     <ClInclude Include="include\common\TextureSample.h" />
     <ClInclude Include="include\Part1.h" />
@@ -37,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Part1Vertice.glsl" />
+    <None Include="shaders\camera\camera.frag" />
+    <None Include="shaders\camera\camera.vert" />
     <None Include="shaders\texture-sample.frag" />
     <None Include="shaders\texture-sample.vert" />
     <None Include="笔记.md" />
