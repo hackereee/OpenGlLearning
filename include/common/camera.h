@@ -9,9 +9,9 @@
 
 
 /**
- * 摄像机方向
+ * 摄像机移动方向
  */
-enum Camera_Direction
+enum Camera_Movement
 {
 	FORWARD,
 	BACKWARD,
@@ -62,6 +62,8 @@ public:
 	//俯仰角
 	float Pitch;
 
+	glm::vec3 WorldUp;
+
 	/**  // NOLINT(clang-diagnostic-documentation)
 	 * \brief
 	 * \param position 摄像机位置
@@ -87,27 +89,103 @@ public:
 		Sensitivity = sensitivity;
 		Pitch = pitch;
 		Yaw = yaw;
-		init(worldUp);
+		WorldUp = worldUp;
+		UpdateVectors();
 	}
 
 
 	/**
 	 * \brief 获取观察矩阵
-	 * \return观察矩阵
+	 * \return观察矩阵, lookat 矩阵
+	 * Position 方向向量 + Front 旋转矩阵中的前向量，可以得到摄像机中心点
 	 */
 	glm::mat4 ViewMartrix()
 	{
-		return glm::lookAt()
+		return glm::lookAt(Position, Position + Front, Up);
 	}
 
+
+	/**
+	 * \brief
+	 * \param movement 移动方向
+	 * \param deltaTime 单位时间，每一帧的间隔时间，通过该时间同步不同设备间的移动距离
+	 */
+	void Keyboard(Camera_Movement movement, float deltaTime)
+	{
+		float velocity = Speed * deltaTime;
+		switch (movement)
+		{
+		case FORWARD:
+			Position += Front * velocity;
+			break;
+		case BACKWARD:
+			Position -= Front * velocity;
+			break;
+		case LEFT:
+			Position -= Right * velocity;
+			break;
+		case RIGHT:
+			Position += Right * velocity;
+			break;
+		}
+
+		UpdateVectors();
+	}
+
+	/**
+	 * \brief
+	 * \param xOff x轴旋转
+	 * \param yOff y轴旋转
+	 * \param contraintPitch 约束俯仰，如果不约束则会出现超过90度
+	 */
+	void MouseMove(float xOff, float yOff, bool contraintPitch = true)
+	{
+		//移动距离*灵敏度
+		xOff *= Sensitivity;
+		yOff *= Sensitivity;
+		// 偏航角弧长
+		Yaw *= xOff;
+		// 俯仰角弧长
+		Pitch *= yOff;
+
+		if (contraintPitch)
+		{
+			if (Pitch > 89.f)
+			{
+				Pitch = 89.f;
+			}
+			else if (Pitch < -89.f)
+			{
+				Pitch = -89.f;
+			}
+			UpdateVectors();
+		}
+	}
+
+	/**
+	 * \brief 滚轮缩放
+	 * \param depth
+	 */
+	void MouseScroll(float depth)
+	{
+		Zoom -= depth;
+		if (Zoom < 1.0f)
+		{
+			Zoom = 1.0f;
+		}
+		if (Zoom > 45.0f)
+		{
+			Zoom = 45.0f;
+		}
+	}
 
 private:
 	/**
 	 * \brief 初始化旋转矩阵， 即组成标准化的Front, Right, Up 观察坐标系
-	 * \param worldUp 世界坐标系中上向量
+
 	 *
 	 */
-	void init(glm::vec3 worldUp)
+	void UpdateVectors()
 	{
 		//front 向量，就是旋转矩阵中的“前的位置”
 		glm::vec3 front;
@@ -122,7 +200,7 @@ private:
 		//标准化坐标
 		Front = glm::normalize(front);
 		//将Front 与传入的up向量叉乘，即可得到右坐标
-		Right = glm::normalize(glm::cross(Front, worldUp));
+		Right = glm::normalize(glm::cross(Front, WorldUp));
 		//最后再将标准化的右坐标和Front坐标叉乘，即可等到真正的up
 		Up = glm::normalize(glm::cross(Right, Front));
 	}
