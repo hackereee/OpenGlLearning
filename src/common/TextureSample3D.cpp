@@ -108,7 +108,7 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 	//观察矩阵,观察坐标系
 	glm::mat4 view = glm::mat4(1.0f);
 	//验证z轴将摄像机原理3倍， glm 为右手坐标系,所以以观察者为原点，越往后数字z轴应该越小（负数）
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	// view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 	//透视投影矩阵，裁剪坐标系
 	glm::mat4 projection = glm::mat4(1.0f);
@@ -122,7 +122,7 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 	int projectionLocation = glGetUniformLocation(shader.ProgramId, "projection");
 	//第三个参数代表是否需要对矩阵进行转置，由于glm与opengl都默认使用列主序排列，所以不需要转置，传false
 
-	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
+
 	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
 
 
@@ -160,6 +160,8 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 	//解绑VAO
 	glBindVertexArray(0);
 	bool frezze = false;
+
+	float conrerRadius = 3.0f;
 	while (!glfwWindowShouldClose(window))
 	{
 
@@ -176,6 +178,8 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 			glfwPollEvents();
 			continue;
 		}
+		view = glm::lookAt(sin(glfwGetTime()))
+			glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//模型矩阵，世界坐标系
 		glm::mat4 model = glm::mat4(1.0f);
@@ -209,8 +213,8 @@ void renderTexture3D()
 	{
 		return;
 	}
-	const char* vert = "shaders/texture-sample.vert";
-	const char* frag = "shaders/texture-sample.frag";
+	const char* vert = "shaders/texture-3d.vert";
+	const char* frag = "shaders/texture-3d.frag";
 	Shader shader(vert, frag);
 	renderCore3D(shader, window);
 }
