@@ -40,6 +40,8 @@
     <None Include="Part1Vertice.glsl" />
     <None Include="shaders\camera\camera.frag" />
     <None Include="shaders\camera\camera.vert" />
+    <None Include="shaders\part1\texture-3d.frag" />
+    <None Include="shaders\part1\texture-3d.vert" />
     <None Include="shaders\texture-sample.frag" />
     <None Include="shaders\texture-sample.vert" />
     <None Include="笔记.md" />
