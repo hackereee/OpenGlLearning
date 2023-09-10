@@ -178,8 +178,13 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 			glfwPollEvents();
 			continue;
 		}
-		view = glm::lookAt(sin(glfwGetTime()))
-			glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
+		//三个参数分别是位置向量，目标位置，上方向
+		//通过位置向量 - 目标向量，即可得到方向向量
+		//通过方向向量叉乘上方向向量即可得到x轴向量
+		//通过方向向量叉乘x轴向量即可得到上向量
+		//最终就得到look at观察矩阵
+		view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
 		glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 		//模型矩阵，世界坐标系
 		glm::mat4 model = glm::mat4(1.0f);
