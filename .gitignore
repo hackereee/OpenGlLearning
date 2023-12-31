@@ -35,3 +35,9 @@
 .vscode/c_cpp_properties.json
 .vscode/settings.json
 /.vs
+.vscode/launch.json
+**/CMakeFiles
+**/*.cmake
+**/*CMakeCache.txt
+**/Makefile
+src/glfw
