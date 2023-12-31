@@ -1,4 +1,4 @@
-#include <Program/shader.h>
+#include <program/shader.h>
 
 using namespace std;
 

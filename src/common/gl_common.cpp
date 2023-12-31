@@ -1,4 +1,4 @@
-#include<Common/gl_common.h>
+#include<common/gl_common.h>
 #include <iostream>
 #include <common/base.h>
 
