@@ -77,7 +77,7 @@ unsigned char* loadContainerTexture3D(int* width, int* height)
 	stbi_set_flip_vertically_on_load(true);
 	//宽、高、通道
 	int nrChannels;
-	return stbi_load("resources/guoguo.jpg", width, height, &nrChannels, 0);
+	return stbi_load("../resources/guoguo.jpg", width, height, &nrChannels, 0);
 }
 
 void renderCore3D(Shader& shader, GLFWwindow* window)
@@ -191,7 +191,7 @@ void renderCore3D(Shader& shader, GLFWwindow* window)
 		//沿着x轴先旋转一定的角度
 		model = glm::rotate<float>(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 1.0f));
 		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, value_ptr(model));
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		shader.use();
 		glEnable(GL_DEPTH_TEST);
@@ -218,8 +218,8 @@ void renderTexture3D()
 	{
 		return;
 	}
-	const char* vert = "shaders/texture-3d.vert";
-	const char* frag = "shaders/texture-3d.frag";
+	const char* vert = "../resources/texture-3d.vert";
+	const char* frag = "../resources/texture-3d.frag";
 	Shader shader(vert, frag);
 	renderCore3D(shader, window);
 }

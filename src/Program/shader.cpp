@@ -11,6 +11,10 @@ Shader::Shader(const char* vertexSourcePath, const char* fragmentSourcePath) {
 	fShaderFile.exceptions(ifstream::failbit | ifstream::badbit);
 
 	try {
+		if(!vShaderFile.good() || !fShaderFile.good()){
+			cout << "the vertexSourcePath or fragmentSourcePath is not exists" << endl;
+			return;
+		}
 		vShaderFile.open(vertexSourcePath);
 		fShaderFile.open(fragmentSourcePath);
 		stringstream vShaderStream, fShaderStream;
