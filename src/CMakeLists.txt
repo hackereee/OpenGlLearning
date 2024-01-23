@@ -9,7 +9,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${PROJECT_SOURCE_DIR}/../libs/glfw-3.3.8-source glfw)
 add_executable(Start 
-Part1.cpp 
+main.cxx
+practice/Part1.cpp 
 glad.c  
 Program/shader.cpp common/gl_common.cpp 
 common/TextureSample.cpp 

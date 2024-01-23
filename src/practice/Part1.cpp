@@ -4,39 +4,71 @@
 #include <common/TextureSample.h>
 using std::string;
 
-//int main() {
-//	//Opengl初始化
-//	glfwInit();
-//
-//	//配置版本
-//	//主版本号
-//	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//	//次版本号
-//	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-//	//
-//	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-//
-//	glfwSetErrorCallback(onGlfwError);
-//	//如果是MACOS需要加上该行
-//	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-//	GLFWwindow* window = initWindow();
-//	/*GLAD管理opengl函数指针，初始化GLAD*/
-//	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-//		std::cout << "faild init glad!" << std::endl;
-//		return -1;
-//	}
-//
-//	render(window);
-//	//渲染结束，释放所有资源
-//	glfwTerminate();
-//	return 0;
-//}
 
-int main()
-{
-	renderTexture3D();
-	return 0;
+/// <summary>
+/// 顶点坐标
+/// </summary>
+float vertices[] = {
+	// 顶点             //RGB
+	-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+	0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
+	0.0f, 0.5f , 0.0f,  0.0f, 0.0f, 1.0f
+};
+
+/// <summary>
+/// 顶点着色器源代码
+/// vertexColor 是自定义的颜色，它从顶点着色器中输入，在片段着色器中输出
+/// aColor 由Cpu输入（代码）
+/// </summary>
+const char* vertexShaderSource = "#version 330 core\n"
+"layout(location = 0) in vec3 aPos;\n"
+"layout(location = 1) in vec3 aColor;\n"
+"out vec4 vertexColor;\n"
+"void main() {\n"
+"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"vertexColor = vec4(aColor, 1.0);\n"
+"}\n";
+
+/// <summary>
+/// 片段着色器
+/// </summary>
+const char* fragmentShaderSource = "#version 330 core\n"
+"out vec4 FragColor;\n"
+"in vec4 vertexColor;\n"
+"void main(){\n"
+"FragColor = vertexColor;\n"
+"}";
+
+
+void beginPart1(){
+//Opengl初始化
+	glfwInit();
+
+	//配置版本
+	//主版本号
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//次版本号
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	glfwSetErrorCallback(onGlfwError);
+	//如果是MACOS需要加上该行
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	GLFWwindow* window = initWindow();
+	/*GLAD管理opengl函数指针，初始化GLAD*/
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cout << "faild init glad!" << std::endl;
+		return ;
+	}
+
+	render(window);
+	//渲染结束，释放所有资源
+	glfwTerminate();
 }
+
+
+
 
 
 

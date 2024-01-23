@@ -1,9 +1,15 @@
 [
 {
   "directory": "/Users/dong/develop/workspace/dong/OpenGlLearning/build",
-  "command": "/usr/bin/clang++  -I/Users/dong/develop/workspace/dong/OpenGlLearning/build -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../libs/glfw-3.3.8-source/include -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../include -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/include -iframework /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks -g -std=gnu++11 -arch arm64 -isysroot /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o CMakeFiles/Start.dir/Part1.cpp.o -c /Users/dong/develop/workspace/dong/OpenGlLearning/src/Part1.cpp",
-  "file": "/Users/dong/develop/workspace/dong/OpenGlLearning/src/Part1.cpp",
-  "output": "CMakeFiles/Start.dir/Part1.cpp.o"
+  "command": "/usr/bin/clang++  -I/Users/dong/develop/workspace/dong/OpenGlLearning/build -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../libs/glfw-3.3.8-source/include -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../include -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/include -iframework /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks -g -std=gnu++11 -arch arm64 -isysroot /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o CMakeFiles/Start.dir/main.cxx.o -c /Users/dong/develop/workspace/dong/OpenGlLearning/src/main.cxx",
+  "file": "/Users/dong/develop/workspace/dong/OpenGlLearning/src/main.cxx",
+  "output": "CMakeFiles/Start.dir/main.cxx.o"
+},
+{
+  "directory": "/Users/dong/develop/workspace/dong/OpenGlLearning/build",
+  "command": "/usr/bin/clang++  -I/Users/dong/develop/workspace/dong/OpenGlLearning/build -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../libs/glfw-3.3.8-source/include -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../include -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/include -iframework /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks -g -std=gnu++11 -arch arm64 -isysroot /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o CMakeFiles/Start.dir/practice/Part1.cpp.o -c /Users/dong/develop/workspace/dong/OpenGlLearning/src/practice/Part1.cpp",
+  "file": "/Users/dong/develop/workspace/dong/OpenGlLearning/src/practice/Part1.cpp",
+  "output": "CMakeFiles/Start.dir/practice/Part1.cpp.o"
 },
 {
   "directory": "/Users/dong/develop/workspace/dong/OpenGlLearning/build",
