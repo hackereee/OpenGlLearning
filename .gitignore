@@ -42,7 +42,6 @@
 **/Makefile
 src/glfw
 src/Start
-build/Testing/TAG
-build/Testing/20240101-0235/Test.xml
-build/Testing/Temporary/CTestCostData.txt
-build/Testing/Temporary/LastTest_20240101-0235.log
+build/
+build/compile_commands.json
+build/Start

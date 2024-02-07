@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <glm/glm.hpp>
 
 /// <summary>
 /// 着色器类
@@ -23,6 +24,7 @@ public:
 	void setInt(std::string& name, int value);
 	void setBool(std::string& name, bool value);
 	void setFloat(std::string& name, float value);
+	void setMat4(std::string& name, glm::mat4 value);
 
 private:
 

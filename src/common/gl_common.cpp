@@ -7,7 +7,26 @@
 #include <config.h>
 
 
+void onFrameBufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
 
+
+
+GLFWwindow* initWindow(int width, int height, const char* title) {
+	std::cout << "start creating window" << std::endl;
+	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
+	if (window == NULL)
+	{
+		std::cout << "init window error:" << "the window is NULL !" << std::endl;
+		return  NULL;
+	}
+
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, onFrameBufferSizeCallback);
+	return window;
+}
 
 
 
@@ -33,23 +52,7 @@ GLFWwindow* initGlEnv(int width, int height, const char* title) {
 
 
 
-void onFrameBufferSizeCallback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
 
 
-GLFWwindow* initWindow(int width, int height, const char* title) {
-	std::cout << "start creating window" << std::endl;
-	GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "init window error:" << "the window is NULL !" << std::endl;
-		return  NULL;
-	}
 
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, onFrameBufferSizeCallback);
-	return window;
-}
 

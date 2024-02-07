@@ -9,4 +9,3 @@
 
 GLFWwindow* initGlEnv(int width, int height, const char* title);
 
-GLFWwindow* initWindow(int width, int height, const  char* title);

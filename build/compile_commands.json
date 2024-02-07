@@ -42,6 +42,12 @@
   "output": "CMakeFiles/Start.dir/common/TextureSample3D.cpp.o"
 },
 {
+  "directory": "/Users/dong/develop/workspace/dong/OpenGlLearning/build",
+  "command": "/usr/bin/clang++  -I/Users/dong/develop/workspace/dong/OpenGlLearning/build -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../libs/glfw-3.3.8-source/include -I/Users/dong/develop/workspace/dong/OpenGlLearning/src/../include -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/include -iframework /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks -g -std=gnu++11 -arch arm64 -isysroot /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o CMakeFiles/Start.dir/transform/2d.cxx.o -c /Users/dong/develop/workspace/dong/OpenGlLearning/src/transform/2d.cxx",
+  "file": "/Users/dong/develop/workspace/dong/OpenGlLearning/src/transform/2d.cxx",
+  "output": "CMakeFiles/Start.dir/transform/2d.cxx.o"
+},
+{
   "directory": "/Users/dong/develop/workspace/dong/OpenGlLearning/build/glfw/src",
   "command": "/usr/bin/clang -D_GLFW_USE_CONFIG_H -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/include -I/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/src -I/Users/dong/develop/workspace/dong/OpenGlLearning/build/glfw/src -g -std=gnu99 -arch arm64 -isysroot /Applications/XCode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -fPIC -Wall -o CMakeFiles/glfw.dir/context.c.o -c /Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/src/context.c",
   "file": "/Users/dong/develop/workspace/dong/OpenGlLearning/libs/glfw-3.3.8-source/src/context.c",
