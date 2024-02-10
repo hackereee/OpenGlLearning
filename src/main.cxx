@@ -8,7 +8,6 @@
 std::map<int, void(*)()> functionMap;
 
 void init(){
-    trans2D();
     functionMap[1] = &beginPart1;
     functionMap[2] = &renderTexture;
     functionMap[3] = &renderTexture3D;
@@ -18,7 +17,7 @@ void init(){
 
 
 int main(){
-    init();
+    trans2D();
     // std::cout << "opengl 练习实现,请输入序号以开始：" << std::endl;
     // std::cout << "1.绘制三角形" << std::endl;
     // std::cout << "2.纹理练习" << std::endl;

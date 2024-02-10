@@ -26,6 +26,8 @@ public:
 	void setFloat(std::string& name, float value);
 	void setMat4(std::string& name, glm::mat4 value);
 
+	void release();
+
 private:
 
 

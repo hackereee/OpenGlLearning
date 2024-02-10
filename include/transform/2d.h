@@ -17,12 +17,18 @@ class Transform2D {
     unsigned int  texture1;
     unsigned int VAO;
     unsigned int EBO;
+   
 
     public:
     Transform2D();
     void start();
+     glm::mat4* transform;
+      bool realeased;
+   
 
    private:
     void init_2d();
+
+    void transformInputAsync();
 };
 #endif
