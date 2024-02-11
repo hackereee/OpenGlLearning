@@ -2,6 +2,9 @@
 // Author:  ddy
 // this is a simple demo for 2D transform
 
+
+
+
 #include <common/gl_common.h>
 
 #include <transform/2d.h>
@@ -13,20 +16,54 @@
 #include <map>
 #include <functional>
 
+bool keeping = false;
+const size_t LEFT = 0;
+const size_t RIGHT = 1;
+
 glm::mat4 rotate(glm::mat4 &input)
 {
-    return glm::rotate<float>(input, glm::radians(glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
+    keeping = true;
+    return glm::rotate<float>(input, glm::radians(glfwGetTime()) * 50, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
-glm::mat4 scale(glm::mat4 &input)
+glm::mat4 zoomIn(glm::mat4 &input)
 {
+
+     keeping = false;   
+    return glm::scale(input, glm::vec3(2.f, 2.f, 2.f));
+}
+
+glm::mat4 zoomOut(glm::mat4 &input)
+{
+    keeping = false;
     return glm::scale(input, glm::vec3(0.5f, 0.5f, 0.5f));
 }
 
-glm::mat4 translate(glm::mat4 &input)
+glm::mat4 translate(glm::mat4 &input, size_t direction)
 {
-    return glm::translate(input, glm::vec3(0.5f, 0.5f, 0.5f));
+    keeping = false;
+    if (direction == LEFT)
+    {
+        return glm::translate(input, glm::vec3(0.0f, -0.5f, 0.0f));
+    }
+    else
+    {
+        return glm::translate(input, glm::vec3(0.0f, 0.5f, 0.0f));
+    }
 }
+
+glm::mat4 translateLeft(glm::mat4 &input)
+{
+    return translate(input, LEFT);
+}
+
+glm::mat4 translateRight(glm::mat4 &input)
+{
+    return translate(input, RIGHT);
+}
+
+
+
 
 glm::mat4 baseMat = glm::mat4(1.0f);
 
@@ -148,12 +185,16 @@ void transformInput()
 {
     std::map<int, std::function<glm::mat4(glm::mat4 &)>> transformMap;
     transformMap[1] = rotate;
-    transformMap[2] = scale;
-    transformMap[3] = translate;
+    transformMap[2] = zoomIn;
+    transformMap[3] = translateLeft;
+    transformMap[4] = zoomOut;
+    transformMap[5] = translateRight;
     std::cout << "您可以输入以下指令进行变换" << std::endl;
     std::cout << "1. 旋转" << std::endl;
-    std::cout << "2. 缩放" << std::endl;
-    std::cout << "3. 平移" << std::endl;
+    std::cout << "2. 放大一倍" << std::endl;
+    std::cout << "3. 左移" << std::endl;
+    std::cout << "4. 缩小一倍" << std::endl;
+    std::cout << "5. 右移" << std::endl;
     int input = 0;
     std::cin >> input;
     if (!transform2D.realeased && transformMap.find(input) != transformMap.end())
@@ -175,6 +216,9 @@ void trans()
         {
             glm::mat4 t = transformFunction(baseMat);
             transform2D.transform = &t;
+            if(!keeping){
+                transformFunction = nullptr;
+            }
         }
     }
 }
