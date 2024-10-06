@@ -1,6 +1,6 @@
 #include<common/TextureSample.h>
 #include <stb_image.h>
-#include<program/shader.h>
+#include<Program/shader.h>
 #include<common/gl_common.h>
 #include<glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

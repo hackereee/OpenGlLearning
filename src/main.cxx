@@ -17,7 +17,7 @@ void init(){
 
 
 int main(){
-    trans2D();
+    // trans2D();
     // std::cout << "opengl 练习实现,请输入序号以开始：" << std::endl;
     // std::cout << "1.绘制三角形" << std::endl;
     // std::cout << "2.纹理练习" << std::endl;

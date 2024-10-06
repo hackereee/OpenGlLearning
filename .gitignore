@@ -45,3 +45,5 @@ src/Start
 build/
 build/compile_commands.json
 build/Start
+
+.fake
