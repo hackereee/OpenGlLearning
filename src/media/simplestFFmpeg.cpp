@@ -61,12 +61,23 @@ void initRenderer(int width, int height)
 
 void startRender(const GLuint &texture)
 {
+    double startTime = glfwGetTime();
     while (true)
     {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glBindVertexArray(1);
         VedioFrame *frame = videoFrameQueue.pop();
+        double currentTime = glfwGetTime();
+        double playTime = frame->playTime;
+        //如果错过播放时间帧，则跳过该帧渲染，如果不到那就等待下一帧的播放时间
+        if (playTime > currentTime - startTime)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds((int)((playTime - currentTime + startTime) * 1000)));
+        }else{
+            std::cout << "frame delay" << currentTime - startTime - playTime << std::endl;
+            continue;
+        }
         // 更新纹理
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame->frame->width, frame->frame->height, 0, GL_RGB, GL_UNSIGNED_BYTE, frame->frame->data);

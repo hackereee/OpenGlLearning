@@ -7,14 +7,17 @@ class VedioFrame{
         VedioFrame(int pts, int timeBase, AVFrame *frame):pts(pts),timeBase(timeBase){
             this->frame = av_frame_alloc();
             av_frame_ref(this->frame, frame);
+            this->playTime = pts * av_q2d({1, timeBase});
         };
         ~VedioFrame(){
             av_frame_free(&frame);
         };
          AVFrame *frame;
+         double playTime;
     private:
         int pts;
         int timeBase;
+        
        
 };
 
