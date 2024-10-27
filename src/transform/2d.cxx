@@ -81,11 +81,12 @@ const int indices[] = {
     0, 1, 2,
     2, 3, 1};
 
-Transform2D transform2D;
+Transform2D *transform2D;
 
 void trans2D()
 {
-    transform2D.start();
+    transform2D = new Transform2D();
+    transform2D->start();
 }
 
 Transform2D::Transform2D()
@@ -197,7 +198,7 @@ void transformInput()
     std::cout << "5. 右移" << std::endl;
     int input = 0;
     std::cin >> input;
-    if (!transform2D.realeased && transformMap.find(input) != transformMap.end())
+    if (!transform2D->realeased && transformMap.find(input) != transformMap.end())
     {
         transformFunction = transformMap[input];
     }
@@ -210,12 +211,12 @@ void transformInput()
 
 void trans()
 {
-    while (!transform2D.realeased)
+    while (!transform2D->realeased)
     {
         if (transformFunction)
         {
             glm::mat4 t = transformFunction(baseMat);
-            transform2D.transform = &t;
+            transform2D->transform = &t;
             if(!keeping){
                 transformFunction = nullptr;
             }

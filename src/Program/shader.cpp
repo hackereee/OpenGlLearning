@@ -88,11 +88,12 @@ void Shader::setInt(string& name, int value) {
 	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
 }
 
+
 void Shader::setBool(string& name, bool value) {
 	glUniform1i(glGetUniformLocation(ProgramId, name.c_str()), value);
 }
 
-void Shader::setMat4(string& name, glm::mat4 value) {
+void Shader::setMat4(string& name, glm::mat4& value) {
 	glUniformMatrix4fv(glGetUniformLocation(ProgramId, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 

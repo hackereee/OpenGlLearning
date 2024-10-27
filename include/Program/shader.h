@@ -24,7 +24,7 @@ public:
 	void setInt(std::string& name, int value);
 	void setBool(std::string& name, bool value);
 	void setFloat(std::string& name, float value);
-	void setMat4(std::string& name, glm::mat4 value);
+	void setMat4(std::string& name, glm::mat4& value);
 
 	void release();
 

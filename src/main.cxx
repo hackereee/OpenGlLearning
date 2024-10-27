@@ -1,17 +1,18 @@
-#include <Part1.h>
-#include <common/TextureSample.h>
+// #include <Part1.h>
+// #include <common/TextureSample.h>
 #include <iostream>
 #include <map>
-#include <transform/2d.h>
+// #include <transform/2d.h>
+#include "media/simplestFFmpeg.h"
 
 
 std::map<int, void(*)()> functionMap;
 
 void init(){
-    functionMap[1] = &beginPart1;
-    functionMap[2] = &renderTexture;
-    functionMap[3] = &renderTexture3D;
-    functionMap[4] = &trans2D;
+    // functionMap[1] = &beginPart1;
+    // functionMap[2] = &renderTexture;
+    // functionMap[3] = &renderTexture3D;
+    // functionMap[4] = &trans2D;
 }
 
 
@@ -26,6 +27,7 @@ int main(){
     // int input = 0;
     // std::cin >> input;
     // functionMap[input]();
+    playVideo();
     return 0;
 }
 
