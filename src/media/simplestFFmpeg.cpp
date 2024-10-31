@@ -8,7 +8,7 @@ extern "C"
 
 #include <common/gl_common.h>
 #include <stb_image.h>
-//glm
+// glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "simplestFFmpeg.h"
@@ -17,6 +17,8 @@ extern "C"
 #include <Program/shader.h>
 #include <condition_variable>
 #include <cstdint>
+#include <bufferq.h>
+#include <mutex>
 
 /// @brief 顶点及纹理坐标
 const float vertices[] = {
@@ -32,8 +34,9 @@ const int indices[] = {
 
 const int BufferSize = 3;
 
-VideoFrameQueue *videoFrameQueue;
 std::shared_ptr<Shader> shader;
+
+std::shared_ptr<OkQueue<std::shared_ptr<VideoMessage>>> videoFrameQueue = std::make_shared<OkQueue<std::shared_ptr<VideoMessage>>>(BufferSize);
 
 void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *window)
 {
@@ -42,7 +45,7 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         return;
     }
     double startTime = 0;
-    VideoMessage *videoMessage = videoFrameQueue->pop();
+    auto videoMessage = videoFrameQueue->pop();
     if (videoMessage->status == StatusPreparing)
     {
         // 初始化纹理
@@ -58,13 +61,12 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, *(texture + 2));
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, videoMessage->width / 2, videoMessage->height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, NULL);
-        //y轴翻转
+        // y轴翻转
         glm::mat4 revert = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, -1.0f, 1.0f));
         shader->use();
         std::string revertName = "revert";
         shader->setMat4(revertName, revert);
     }
-    delete videoMessage;
     videoMessage = nullptr;
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -84,23 +86,6 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         {
             std::cout << "frame format is yuv420p" << std::endl;
         }
-        double currentTime = glfwGetTime();
-        double playTime = frame->playTime;
-        if (startTime == 0)
-        {
-            startTime = currentTime;
-        }
-        double diff = currentTime - startTime;
-        // 如果错过播放时间帧，则跳过该帧渲染，如果不到那就等待下一帧的播放时间
-        if (playTime > diff && playTime - diff > 0.1)
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds((int)((playTime - diff) * 1000)));
-        }
-        else if(playTime < diff)
-        {
-            std::cout << "frame delay" << currentTime - startTime - playTime << std::endl;
-            continue;
-        }
         shader->use();
         std::string useTexture = "useTexture";
         shader->setBool(useTexture, true);
@@ -113,7 +98,7 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
 
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, videoMessage->width, videoMessage->height, GL_RED, GL_UNSIGNED_BYTE, frame->frame->data[0]);
         int error = glGetError();
-        if(error != GL_NO_ERROR)
+        if (error != GL_NO_ERROR)
         {
             std::cout << "update texture Y error" << error << std::endl;
         }
@@ -122,16 +107,16 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, *(texture + 1));
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, videoMessage->width / 2, videoMessage->height / 2, GL_RED, GL_UNSIGNED_BYTE, frame->frame->data[1]);
-        if(glGetError() != GL_NO_ERROR)
+        if (glGetError() != GL_NO_ERROR)
         {
             std::cout << "update texture U error" << std::endl;
         }
         // std::cout << "update texture U" << std::endl;
-        //V
+        // V
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, *(texture + 2));
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, videoMessage->width / 2, videoMessage->height / 2, GL_RED, GL_UNSIGNED_BYTE, frame->frame->data[2]);
-        if(glGetError() != GL_NO_ERROR)
+        if (glGetError() != GL_NO_ERROR)
         {
             std::cout << "update texture V error" << std::endl;
         }
@@ -142,15 +127,13 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         std::cout << "frame render draw element" << std::endl;
         glfwSwapBuffers(window);
         std::cout << "frame render swap buffer" << std::endl;
-        delete videoMessage;
         videoMessage = nullptr;
         std::cout << "frame render delete buffer" << std::endl;
         glfwPollEvents();
     }
-    delete videoFrameQueue;
 }
 
-void initRenderer(int width, int height)
+GLFWwindow  *initRenderer(int width, int height)
 {
     GLFWwindow *window = initGlEnv(width, height, "Titanic");
     shader = std::make_shared<Shader>("shaders/media/media.vert", "shaders/media/media.frag");
@@ -207,11 +190,21 @@ void initRenderer(int width, int height)
     // 开启垂直同步
     glfwSwapInterval(1);
     startRender(texture, VAO, EBO, window);
+    return window;
+}
+
+void sendBegin(int width, int height)
+{
+    videoFrameQueue->push(std::make_shared<VideoMessage>(width, height, StatusPreparing, nullptr));
+}
+
+void sendEnd()
+{
+    videoFrameQueue->push(std::make_shared<VideoMessage>(0, 0, StatusEnd, nullptr));
 }
 
 void startPlay()
 {
-    videoFrameQueue = new VideoFrameQueue(BufferSize);
     const char *input = "media/Titanic.ts";
     AVFormatContext *pFormatCtx = avformat_alloc_context();
     // 打开文件
@@ -258,8 +251,7 @@ void startPlay()
         std::cout << "parameters to context failed" << std::endl;
         return;
     }
-    VideoMessage *videoMessage = new VideoMessage(pCodecParamters->width, pCodecParamters->height, StatusPreparing, nullptr);
-    videoFrameQueue->push(videoMessage);
+
     // 解码器打开
     if (avcodec_open2(pCodecCtx, pCodec, nullptr) < 0)
     {
@@ -267,37 +259,41 @@ void startPlay()
         return;
     }
 
+    AVPacket *packet = (AVPacket *)av_malloc(sizeof(AVPacket));
+    sendBegin(pCodecParamters->width, pCodecParamters->height);
     AVFrame *pFrame = av_frame_alloc();
-
     // 分配pFrameYUV的缓冲区
     int align = 1;
 
-    SwsContext *pSwsCtx = sws_getContext(pCodecParamters->width, pCodecParamters->height, pCodecCtx->pix_fmt, pCodecParamters->width, pCodecParamters->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+    SwsContext *pSwsCtx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+    double firstTime = glfwGetTime();
 
-    AVPacket *packet = (AVPacket *)av_malloc(sizeof(AVPacket));
     while (true)
     {
+
         if (av_read_frame(pFormatCtx, packet) < 0)
         {
-            videoFrameQueue->push(new VideoMessage(pCodecParamters->width, pCodecParamters->height, StatusEnd, nullptr));
+            std::cout << "read frame failed" << std::endl;
             break;
         }
         if (packet->stream_index == videoStreamIndex)
         {
-            // 这里最好是发送和解码放不同线程并行处理，以免单线程处理过慢导致渲染的延时
             int ret = avcodec_send_packet(pCodecCtx, packet);
             if (ret < 0)
             {
                 av_packet_unref(packet);
                 continue;
             }
-
             while (ret >= 0)
             {
-                ret = avcodec_receive_frame(pCodecCtx, pFrame);
-                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+                ret = (avcodec_receive_frame(pCodecCtx, pFrame));
+                if (ret == AVERROR(EAGAIN))
                 {
-                    // 已经到文件末尾
+                    break;
+                }
+                else if (ret == AVERROR_EOF)
+                {
+                    std::cout << "receive frame eof" << std::endl;
                     break;
                 }
                 else if (ret < 0)
@@ -306,24 +302,46 @@ void startPlay()
                     std::cout << "receive frame error, ret:" << ret << std::endl;
                     break;
                 }
+                if (pFrame->pts == 0)
+                {
+                    firstTime = glfwGetTime();
+                }
+                else
+                {
+                    double currentTime = glfwGetTime();
+                    double diff = currentTime - firstTime;
+                    auto timebase = pFormatCtx->streams[videoStreamIndex]->time_base;
+                    double playTime = pFrame->pts * av_q2d(timebase);
+                    std::cout << "diff:" << diff << " playTime:" << playTime << std::endl;
+                    if (diff - playTime > 0.01)
+                    {
+                        continue;
+                    }
+                    else if (playTime - diff > 0.001)
+                    {
+                        std::this_thread::sleep_for(std::chrono::milliseconds((int)((playTime - diff) * 1000)));
+                    }
+                }
                 AVFrame *pFrameYUV = av_frame_alloc();
                 pFrameYUV->format = AV_PIX_FMT_YUV420P;
-                uint8_t *out_buffer = (uint8_t *)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecParamters->width, pCodecParamters->height, align));
+                uint8_t *out_buffer = (uint8_t *)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, align));
                 av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, out_buffer, AV_PIX_FMT_YUV420P, pCodecParamters->width, pCodecParamters->height, align);
                 // 转换成YUV420P
                 sws_scale(pSwsCtx, (const uint8_t *const *)pFrame->data, pFrame->linesize, 0, pCodecParamters->height, pFrameYUV->data, pFrameYUV->linesize);
                 VedioFrame *frame = new VedioFrame(pFrame->pts, &pFormatCtx->streams[videoStreamIndex]->time_base, pFrameYUV);
                 std::cout << "push frame ready " << std::endl;
-                videoFrameQueue->push(new VideoMessage(pCodecParamters->width, pCodecParamters->height, StatusPlaying, frame));
+                videoFrameQueue->push(std::make_shared<VideoMessage>(pCodecParamters->width, pCodecParamters->height, StatusPlaying, frame));
             }
-
-            av_packet_unref(packet);
         }
+        av_packet_unref(packet);
     }
+    sendEnd();
 }
 
 void playVideo()
 {
     std::thread t(startPlay);
-    initRenderer(800, 600);
+    auto window = initRenderer(800, 600);
+    std::cout << "播放结束，自动退出！" << std::endl;
+    glfwTerminate();
 }

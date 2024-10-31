@@ -13,9 +13,16 @@ file(GLOB_RECURSE TRANSFORM_FILES transform/*.c**)
 file(GLOB_RECURSE MEDIA_FILES ${CMAKE_CURRENT_SOURCE_DIR}/media/*.cpp
 ${CMAKE_CURRENT_SOURCE_DIR}/media/*.h)
 
+set(TOOLKIT_DIR ${PROJECT_SOURCE_DIR}/toolkit)
+set(TOOLKIT_INCLUDE_DIR ${TOOLKIT_DIR}/include)
+file(GLOB_RECURSE TOOLKIT_FILES ${TOOLKIT_DIR}/*.cpp)
+#打印TOOLKIT_DIR
+message("TOOLKIT_INCLUDE_DIR: ${TOOLKIT_INCLUDE_DIR}")
+
 file(COPY ${PROJECT_SOURCE_DIR}/../resources DESTINATION  ${PROJECT_BINARY_DIR})
 file(COPY ${PROJECT_SOURCE_DIR}/../shaders DESTINATION  ${PROJECT_BINARY_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/media/Titanic.ts DESTINATION ${PROJECT_BINARY_DIR}/media)
+
 
 add_executable(Start 
 main.cxx
@@ -25,7 +32,8 @@ Program/shader.cpp common/gl_common.cpp
 common/TextureSample.cpp 
 common/TextureSample3D.cpp
 ${TRANSFORM_FILES} 
-${MEDIA_FILES})
+${MEDIA_FILES}
+${TOOLKIT_FILES})
 
 set(ENV(PKG_CONFIG_PATH) "/opt/homebrew/Cellar/ffmpeg/7.1/lib/pkgconfig")
 
@@ -44,7 +52,8 @@ target_include_directories(Start PUBLIC
     ${PROJECT_BINARY_DIR} 
     ${PROJECT_SOURCE_DIR}/../libs/glfw-3.3.8-source/include 
     ${PROJECT_SOURCE_DIR}/../include  
-    ${FFMPEG_INCLUDE_DIRS})
+    ${FFMPEG_INCLUDE_DIRS}
+    ${TOOLKIT_INCLUDE_DIR})
 
 
 
