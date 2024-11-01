@@ -47,3 +47,4 @@ build/compile_commands.json
 build/Start
 .vscode
 .fake
+local

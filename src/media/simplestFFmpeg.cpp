@@ -17,16 +17,16 @@ extern "C"
 #include <Program/shader.h>
 #include <condition_variable>
 #include <cstdint>
-#include <bufferq.h>
+#include <toolkit/bufferq.h>
 #include <mutex>
 
 /// @brief 顶点及纹理坐标
 const float vertices[] = {
     // 顶点坐标          // 纹理坐标
-    -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.0f, 1.0f, 0.0f};
+    -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+    1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+    -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+    1.0f, -1.0f, 0.0f, 1.0f, 0.0f};
 
 const int indices[] = {
     0, 1, 2,
@@ -70,7 +70,7 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
     videoMessage = nullptr;
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-    while (true)
+    while (glfwWindowShouldClose(window) == 0)
     {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -205,7 +205,10 @@ void sendEnd()
 
 void startPlay()
 {
-    const char *input = "media/Titanic.ts";
+    std::cout << "请输入视频文件路径" << std::endl;
+    std::string path;
+    std::cin >> path;
+    const char *input = path.c_str();
     AVFormatContext *pFormatCtx = avformat_alloc_context();
     // 打开文件
     if (avformat_open_input(&pFormatCtx, input, NULL, NULL) != 0)
