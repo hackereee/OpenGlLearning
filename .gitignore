@@ -42,6 +42,7 @@
 **/Makefile
 src/glfw
 src/Start
+build/**
 build/
 build/compile_commands.json
 build/Start

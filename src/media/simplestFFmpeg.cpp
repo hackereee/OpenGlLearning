@@ -345,6 +345,8 @@ void startPlay()
                 pFrameYUV->format = AV_PIX_FMT_YUV420P;
                 uint8_t *out_buffer = (uint8_t *)av_malloc(av_image_get_buffer_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height, align));
                 av_image_fill_arrays(pFrameYUV->data, pFrameYUV->linesize, out_buffer, AV_PIX_FMT_YUV420P, pCodecParamters->width, pCodecParamters->height, align);
+                //释放out_buffer
+                av_free(out_buffer);
                 // 转换成YUV420P
                 sws_scale(pSwsCtx, (const uint8_t *const *)pFrame->data, pFrame->linesize, 0, pCodecParamters->height, pFrameYUV->data, pFrameYUV->linesize);
                 VedioFrame *frame = new VedioFrame(pFrame->pts, &pFormatCtx->streams[videoStreamIndex]->time_base, pFrameYUV);
@@ -355,6 +357,10 @@ void startPlay()
         av_packet_unref(packet);
     }
     sendEnd();
+    //释放pSwsCtx
+    sws_freeContext(pSwsCtx);
+    avcodec_free_context(&pCodecCtx);
+    avformat_close_input(&pFormatCtx);
 }
 
 void playVideo()
