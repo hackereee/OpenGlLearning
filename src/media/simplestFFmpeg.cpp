@@ -38,7 +38,7 @@ std::shared_ptr<Shader> shader;
 
 std::shared_ptr<OkQueue<std::shared_ptr<VideoMessage>>> videoFrameQueue = std::make_shared<OkQueue<std::shared_ptr<VideoMessage>>>(BufferSize);
 
-void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *window)
+void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *window, int w, int h)
 {
     if (texture == nullptr)
     {
@@ -63,9 +63,25 @@ void startRender(const GLuint *texture, GLuint &vao, GLuint &ebo, GLFWwindow *wi
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, videoMessage->width / 2, videoMessage->height / 2, 0, GL_RED, GL_UNSIGNED_BYTE, NULL);
         // y轴翻转
         glm::mat4 revert = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, -1.0f, 1.0f));
+        if(w > h){
+            //如果宽度大于高度， 则说明是横屏，我们铺满宽度，高度等比缩放
+            //首先先还原被拉伸之前的比例
+            double scale = (double)videoMessage->height / h;
+            double wScale = w / (double)videoMessage->width;
+            scale = scale * wScale;
+            //然后根据原有长宽比再次进行作坊
+            revert = glm::scale(revert, glm::vec3(1.0f, scale, 1.0f));
+        }else{
+            double scale = (double)videoMessage->width / w;
+            double hScale = h / (double)videoMessage->height;
+            scale = scale * hScale;
+            revert = glm::scale(revert, glm::vec3(scale, 1.0f, 1.0f));
+        }
+        
         shader->use();
         std::string revertName = "revert";
         shader->setMat4(revertName, revert);
+
     }
     videoMessage = nullptr;
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -189,7 +205,7 @@ GLFWwindow  *initRenderer(int width, int height)
     // glGenerateMipmap(GL_TEXTURE_2D);
     // 开启垂直同步
     glfwSwapInterval(1);
-    startRender(texture, VAO, EBO, window);
+    startRender(texture, VAO, EBO, window, width, height);
     return window;
 }
 

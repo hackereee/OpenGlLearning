@@ -38,7 +38,7 @@ ${TRANSFORM_FILES}
 ${MEDIA_FILES}
 ${TOOLKIT_FILES})
 
-set(ENV(PKG_CONFIG_PATH) "/opt/homebrew/Cellar/ffmpeg/7.1/lib/pkgconfig")
+# set(ENV(PKG_CONFIG_PATH) "/opt/homebrew/Cellar/ffmpeg/7.1_2/lib/pkgconfig")
 
 find_package(PkgConfig REQUIRED)
 
@@ -51,12 +51,17 @@ pkg_check_modules(FFMPEG REQUIRED
 message("FFMPEG_INCLUDE_DIRS: ${FFMPEG_INCLUDE_DIRS}")
 message("FFMPEG_LIBRARIES: ${FFMPEG_LIBRARIES}")
 
+find_package(SDL2 REQUIRED)
+message("SDL2_INCLUDE_DIRS: ${SDL2_INCLUDE_DIRS}")
+message("SDL2_LIBRARIES: ${SDL2_LIBRARIES}")
+
 target_include_directories(Start PUBLIC 
     ${PROJECT_BINARY_DIR} 
     ${PROJECT_SOURCE_DIR}/../libs/glfw-3.3.8-source/include 
     ${PROJECT_SOURCE_DIR}/../include  
     ${FFMPEG_INCLUDE_DIRS}
-    ${TOOLKIT_INCLUDE_DIR})
+    ${TOOLKIT_INCLUDE_DIR}
+    ${SDL2_INCLUDE_DIRS})
 
 
 
@@ -84,7 +89,7 @@ ${FFMPEG_LIBRARY_DIRS}/libavdevice.dylib
 ${FFMPEG_LIBRARY_DIRS}/libavfilter.dylib 
 ${FFMPEG_LIBRARY_DIRS}/libswresample.dylib)
 
-target_link_libraries(Start PUBLIC ${FFMPEG_LIBRARIES})
+target_link_libraries(Start PUBLIC ${FFMPEG_LIBRARIES} ${SDL2_LIBRARIES})
 
 target_link_libraries(Start PUBLIC OpenGL::GL)
 
