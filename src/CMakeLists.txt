@@ -38,7 +38,7 @@ ${TRANSFORM_FILES}
 ${MEDIA_FILES}
 ${TOOLKIT_FILES})
 
-# set(ENV(PKG_CONFIG_PATH) "/opt/homebrew/Cellar/ffmpeg/7.1_2/lib/pkgconfig")
+set(ENV(PKG_CONFIG_PATH) "/opt/homebrew/Cellar/ffmpeg/7.1_3/lib/pkgconfig")
 
 find_package(PkgConfig REQUIRED)
 
@@ -49,6 +49,7 @@ pkg_check_modules(FFMPEG REQUIRED
     libswscale
 )
 message("FFMPEG_INCLUDE_DIRS: ${FFMPEG_INCLUDE_DIRS}")
+message("FFMPEG_LIBRARY_DIRS", ${FFMPEG_LIBRARY_DIRS})
 message("FFMPEG_LIBRARIES: ${FFMPEG_LIBRARIES}")
 
 find_package(SDL2 REQUIRED)

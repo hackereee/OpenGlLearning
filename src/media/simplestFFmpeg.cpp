@@ -4,6 +4,7 @@ extern "C"
 #include <libavformat/avformat.h>
 #include <libavutil/imgutils.h>
 #include <libswscale/swscale.h>
+#include <SDL2/SDL.h>
 }
 
 #include <common/gl_common.h>
@@ -19,6 +20,7 @@ extern "C"
 #include <cstdint>
 #include <toolkit/bufferq.h>
 #include <mutex>
+#include <libavutil/time.h>
 
 /// @brief 顶点及纹理坐标
 const float vertices[] = {
@@ -240,6 +242,7 @@ void startPlay()
     }
 
     int videoStreamIndex = -1;
+    int audioStreamIndex = -1;
 
     for (int i = 0; i < pFormatCtx->nb_streams; i++)
     {
@@ -247,10 +250,14 @@ void startPlay()
         if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
         {
             videoStreamIndex = i;
+        }else if(pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO){
+            audioStreamIndex = i;
+        }
+        if(videoStreamIndex != -1 && audioStreamIndex != -1){
             break;
         }
     }
-    if (videoStreamIndex < 0)
+    if (videoStreamIndex < 0 && audioStreamIndex < 0)
     {
         std::cout << "find video stream failed" << std::endl;
         return;
@@ -362,6 +369,42 @@ void startPlay()
     avcodec_free_context(&pCodecCtx);
     avformat_close_input(&pFormatCtx);
 }
+
+void decodeAndPlay(AVFormatContext *pFormatContext, int& videoIndex, int& audioIndex){
+}
+
+void playAudio(AVFormatContext* pFromatContext, int audioIndex){
+    if(audioIndex < 0){
+        return;
+    }
+    AVCodecParameters *pCodecParamters = pFromatContext->streams[audioIndex]->codecpar;
+    const AVCodec *pCodec = avcodec_find_decoder(pCodecParamters->codec_id);
+    if(pCodec == nullptr){
+        std::cout << "could not find the decoder" << std::endl;
+        return;
+    }
+    AVCodecContext *pCodecCtx = avcodec_alloc_context3(pCodec);
+    if(avcodec_parameters_to_context(pCodecCtx, pCodecParamters) < 0){
+        std::cout << "parameters to context failed" << std::endl;
+        return;
+    }
+    if(avcodec_open2(pCodecCtx, pCodec, nullptr) < 0){
+        std::cout << "open codec failed" << std::endl;
+        return;
+    }
+    SDL_AudioSpec wanted_spec;
+    //采样率
+    wanted_spec.freq = pCodecCtx->sample_rate;
+    // 采样格式
+    wanted_spec.format = AUDIO_S16SYS;
+}
+
+// 音频回调
+void audio_callback(void *userdata, Uint8 *stream, int len)
+{
+    
+}
+
 
 void playVideo()
 {
